@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">QR Attendance</string>
+    <string name="channel_name">Noti_Channel</string>
+    <string name="channel_description">Noti_Channel_Desc</string>
+    <string name="title_activity_login">Log in</string>
+
+    <!--API-->
+    <string name="registercustomer">http://192.168.0.105:3000/api/registercustomer</string>
+    <string name="logincustomer">http://192.168.0.105:3000/api/logincustomer</string>
+    <string name="addtocart">http://192.168.0.105:3000/api/addtocart</string>
+    <string name="getcustomerinfo">http://192.168.0.105:3000/api/getcustomerinfo</string>
+    <string name="getCartData">http://192.168.0.105:3000/api/getCartData</string>
+    <string name="removeFromCart">http://192.168.0.105:3000/api/removeFromCart</string>
+
+    <string name="title_activity_dashboard">QRAttendance</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Student Name</string>
+    <string name="nav_header_subtitle">student@email.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_logout">Logout</string>
+
+
+</resources>
