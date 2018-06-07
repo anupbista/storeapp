@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">QR Attendance</string>
+    <string name="app_name">Store</string>
     <string name="channel_name">Noti_Channel</string>
     <string name="channel_description">Noti_Channel_Desc</string>
     <string name="title_activity_login">Log in</string>
@@ -11,14 +11,29 @@
     <string name="getcustomerinfo">http://192.168.0.105:3000/api/getcustomerinfo</string>
     <string name="getCartData">http://192.168.0.105:3000/api/getCartData</string>
     <string name="removeFromCart">http://192.168.0.105:3000/api/removeFromCart</string>
+    <string name="getProductImage">http://192.168.0.105:3000/api/getProductImage</string>
+    <string name="customercheckout">http://192.168.0.105:3000/api/customercheckout</string>
+    <string name="staffcheckout">http://192.168.0.105:3000/api/staffcheckout</string>
+    <string name="updateCheckout">http://192.168.0.105:3000/api/updateCheckout</string>
+    <string name="getProductQuantity">http://192.168.0.105:3000/api/getProductQuantity</string>
+    <string name="getCheckoutBill">http://192.168.0.105:3000/api/getCheckoutBill</string>
 
-    <string name="title_activity_dashboard">QRAttendance</string>
+    <string name="title_activity_dashboard">Store</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Student Name</string>
     <string name="nav_header_subtitle">student@email.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_logout">Logout</string>
+    <string name="checkout_sure">Are you Sure?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="tabScan">Scan</string>
+    <string name="tabRecommendation">Recommendation</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
 </resources>

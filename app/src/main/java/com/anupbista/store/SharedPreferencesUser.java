@@ -1,4 +1,4 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.store;
 
 import android.content.Context;
 import android.content.SharedPreferences;

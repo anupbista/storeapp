@@ -1,6 +1,9 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.store;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,7 +29,10 @@ import org.json.JSONObject;
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String CHANNEL_ID = "channelCheckout";
+
     private TextView customerName, customerEmail;
+    public static Boolean checkoutStatus =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,26 @@ public class DashboardActivity extends AppCompatActivity
         }
         getCustomerInfo();
 
+        createNotificationChannel();
+
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "CheckoutActivity Channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("CheckoutActivity Notification Channel");
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void getCustomerInfo(){
@@ -151,10 +177,13 @@ public class DashboardActivity extends AppCompatActivity
         else if (id == R.id.nav_cart) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new CartFragment()).commit();
-        } else if (id == R.id.nav_schedule) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ScheduleFragment()).commit();
+        } else if (id == R.id.nav_checkDetails) {
+            Intent checkDetailsIntent = new Intent(DashboardActivity.this, CheckoutActivity.class);
+            DashboardActivity.this.startActivity(checkDetailsIntent);
 
+        }else if (id == R.id.nav_recommendations) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new RecommendationsFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_settings) {

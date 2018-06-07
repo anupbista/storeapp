@@ -1,4 +1,4 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.store;
 
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -48,10 +48,6 @@ public class LoginActivity extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                login();
-//               Intent intent = new Intent(LoginActivity.this, WifiConnectionReceiver.class);
-//               intent.putExtra("SSID","Galacticos");
-//               intent.putExtra("key","bernabeu@1902");
-//               sendBroadcast(intent);
            }
        });
     }

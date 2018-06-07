@@ -1,4 +1,4 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.anupbista.qrattendance;
 
 import org.junit.Test;
 

@@ -9,13 +9,18 @@
             android:icon="@drawable/ic_dashboard"
             android:title="Dashboard" />
         <item
+            android:id="@+id/nav_recommendations"
+            android:icon="@drawable/ic_recommendations"
+            android:title="Recommendations" />
+        <item
             android:id="@+id/nav_cart"
             android:icon="@drawable/ic_cart"
             android:title="Cart" />
         <item
-            android:id="@+id/nav_schedule"
-            android:icon="@drawable/ic_schedule"
-            android:title="Schedule" />
+            android:id="@+id/nav_checkDetails"
+            android:icon="@drawable/ic_checkdetails"
+            android:checkable="false"
+            android:title="Checkout Details" />
     </group>
 
     <item android:title="Others">

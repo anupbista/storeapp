@@ -1,6 +1,8 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.store;
 
-public class ProductOnCart {
+import android.graphics.Bitmap;
+
+public class Products {
 
     private String productID;
     private String productOnCartID;
@@ -12,8 +14,27 @@ public class ProductOnCart {
     private String productPrice;
     private String productDesc;
     private String productQuantity;
+    private Bitmap productImage;
 
-    public ProductOnCart(String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
+    public Products(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity, Bitmap productImage) {
+        this.productID = productID;
+        this.productOnCartID = productOnCartID;
+        this.productName = productName;
+        this.productCat = productCat;
+        this.productSize = productSize;
+        this.productBrand = productBrand;
+        this.productColor = productColor;
+        this.productPrice = productPrice;
+        this.productDesc = productDesc;
+        this.productQuantity = productQuantity;
+        this.productImage = productImage;
+    }
+
+    public Products(Bitmap productImage) {
+        this.productImage = productImage;
+    }
+
+    public Products(String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
         this.productName = productName;
         this.productCat = productCat;
         this.productSize = productSize;
@@ -24,7 +45,7 @@ public class ProductOnCart {
         this.productQuantity = productQuantity;
     }
 
-    public ProductOnCart(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
+    public Products(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
         this.productID = productID;
         this.productOnCartID = productOnCartID;
         this.productName = productName;
@@ -37,7 +58,7 @@ public class ProductOnCart {
         this.productQuantity = productQuantity;
     }
 
-    public ProductOnCart(String productID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
+    public Products(String productID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity) {
         this.productID = productID;
         this.productName = productName;
         this.productCat = productCat;
@@ -47,6 +68,10 @@ public class ProductOnCart {
         this.productPrice = productPrice;
         this.productDesc = productDesc;
         this.productQuantity = productQuantity;
+    }
+
+    public Bitmap getProductImage() {
+        return productImage;
     }
 
     public String getProductID() {

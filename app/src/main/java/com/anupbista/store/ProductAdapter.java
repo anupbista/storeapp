@@ -1,15 +1,13 @@
-package com.qrattendance.anupbista.qrattendance;
+package com.anupbista.store;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,12 +24,12 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder>{
 
     private Context mCtx;
-    private List<ProductOnCart> productOnCartList;
+    private List<Products> productsList;
     private CartFragment fragment;
 
-    public ProductAdapter(Context mCtx, List<ProductOnCart> productOnCartList,CartFragment fragment) {
+    public ProductAdapter(Context mCtx, List<Products> productsList, CartFragment fragment) {
         this.mCtx = mCtx;
-        this.productOnCartList = productOnCartList;
+        this.productsList = productsList;
         this.fragment = fragment;
     }
 
@@ -45,23 +43,25 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull final ProductViewHolder holder, final int position) {
-        final ProductOnCart productOnCart = productOnCartList.get(position);
+        final Products products = productsList.get(position);
 
-        holder.name.setText(productOnCart.getProductName());
-        holder.category.setText(productOnCart.getProductCat());
-        holder.color.setText(productOnCart.getProductColor());
-        holder.size.setText(productOnCart.getProductSize());
-        holder.price.setText(productOnCart.getProductPrice());
-        holder.desc.setText(productOnCart.getProductDesc());
-        holder.quantity.setText(productOnCart.getProductQuantity());
+        holder.name.setText(products.getProductName());
+        holder.category.setText(products.getProductCat());
+        holder.color.setText(products.getProductColor());
+        holder.size.setText(products.getProductSize());
+        holder.price.setText("Rs. "+ products.getProductPrice());
+        holder.desc.setText(products.getProductDesc());
+        holder.brand.setText(products.getProductBrand());
+        holder.quantity.setText(products.getProductQuantity());
+        holder.productImage.setImageBitmap(products.getProductImage());
         holder.removeFromCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 JSONObject json = new JSONObject();
                 try{
-                    json.put("productOnCartID", productOnCart.getProductOnCartID());
-                    json.put("productID", productOnCart.getProductID());
-                    json.put("productQuantity", productOnCart.getProductQuantity());
+                    json.put("productOnCartID", products.getProductOnCartID());
+                    json.put("productID", products.getProductID());
+                    json.put("productQuantity", products.getProductQuantity());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -72,9 +72,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                         try {
                             if(response.getBoolean("message")){
                                 Toast.makeText(mCtx,"Removed from Cart", Toast.LENGTH_SHORT).show();
-                                productOnCartList.remove(position);
+                                productsList.remove(position);
                                 notifyItemRemoved(position);
-                                notifyItemRangeChanged(position, productOnCartList.size());
+                                notifyItemRangeChanged(position, productsList.size());
+                                fragment.calculateTotalPrice();
                             }
                             else{
                                 Toast.makeText(mCtx,"Failed removing from Cart", Toast.LENGTH_SHORT).show();
@@ -97,13 +98,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public int getItemCount() {
-        return productOnCartList.size();
+        return productsList.size();
     }
 
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
         TextView name, category,color,size,brand, price,desc,quantity;
         ImageButton removeFromCartBtn;
+        ImageView productImage;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -117,6 +119,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             desc = itemView.findViewById(R.id.desc);
             quantity = itemView.findViewById(R.id.quantity);
             removeFromCartBtn = itemView.findViewById(R.id.removeFromCartBtn);
+            productImage = itemView.findViewById(R.id.productImage);
         }
     }
 }
