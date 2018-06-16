@@ -82,7 +82,7 @@ public class DashboardActivity extends AppCompatActivity
 
     public void getCustomerInfo(){
         SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(DashboardActivity.this);
-        String userName = sharedPreferencesUser.getUsername();
+        final String userName = sharedPreferencesUser.getUsername();
         JSONObject json = new JSONObject();
         try{
             json.put("userName",userName);
@@ -98,7 +98,8 @@ public class DashboardActivity extends AppCompatActivity
                         customerName = findViewById(R.id.customer_name);
                         customerEmail = findViewById(R.id.customer_email);
                         String fullName = response.getJSONObject("details").getString("first_name")+" "+response.getJSONObject("details").getString("last_name");
-                        customerName.setText(fullName);
+                        String username = response.getJSONObject("details").getString("username");
+                        customerName.setText(fullName+" ("+username+")");
                         customerEmail.setText(response.getJSONObject("details").getString("email"));
                     }
                     else{

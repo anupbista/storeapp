@@ -207,6 +207,7 @@ public class CartFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getBoolean("message")){
+                        System.out.println(response);
                         cartDetailsLayout.setVisibility(View.VISIBLE);
                         JSONArray productArray = response.getJSONArray("cartData");
                         for (int i=0;i<productArray.length();i++){
@@ -252,6 +253,7 @@ public class CartFragment extends Fragment {
                     else{
                         emptyCartMessage.setVisibility(View.VISIBLE);
                         checkoutBtn.setEnabled(false);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

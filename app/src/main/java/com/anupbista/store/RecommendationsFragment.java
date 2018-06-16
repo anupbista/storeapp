@@ -80,14 +80,15 @@ public class RecommendationsFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String URL =  getResources().getString(R.string.getCartData);
+        String URL =  getResources().getString(R.string.getrecommendedProducts);
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getBoolean("message")){
-
-                        JSONArray productArray = response.getJSONArray("cartData");
+                        System.out.println(response);
+                        JSONArray productArray = response.getJSONArray("recommendedProducts");
+                        System.out.println(productArray);
                         for (int i=0;i<productArray.length();i++){
                             final JSONObject productObject = productArray.getJSONObject(i);
                             JSONObject json = new JSONObject();
@@ -106,8 +107,7 @@ public class RecommendationsFragment extends Fragment {
                                             byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
-                                            Products products = new Products(productObject.getString("productID"),productObject.getString("productOnCartID"),productObject.getString("productName"),productObject.getString("productCat"),productObject.getString("productSize"),productObject.getString("productBrand"),
-                                                    productObject.getString("productColor"),productObject.getString("productPrice"),productObject.getString("productDesc"),productObject.getString("productQuantity"),productImages);
+                                            Products products = new Products(productObject.getString("productname"),productObject.getString("productprice"),productImages);
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }

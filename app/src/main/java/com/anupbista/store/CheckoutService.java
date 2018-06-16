@@ -101,10 +101,10 @@ public class CheckoutService extends Service{
                                         public void onResponse(JSONObject response) {
                                             try {
                                                 if(response.getBoolean("message")){
-                                                    Log.d("Checkout Status","Updated checkout status of staff and user to 0");
+                                                    Log.d("Checkout Status","Updated checkout status: removed user from active list");
                                                 }
                                                 else{
-                                                    Log.d("Checkout Status","Could not update checkout status of staff and user to 0");
+                                                    Log.d("Checkout Status","Could not update checkout status");
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();

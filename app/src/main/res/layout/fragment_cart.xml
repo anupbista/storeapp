@@ -39,8 +39,7 @@
     <LinearLayout
         android:id="@+id/cartDetailsLayout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="70dp"
         android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
@@ -48,8 +47,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardRecyclerView">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/cartTotal"
@@ -83,11 +82,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardRecyclerView"
         android:layout_width="395dp"
-        android:layout_height="519dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:scrollbars="vertical"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/cartDetailsLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

@@ -16,6 +16,12 @@ public class Products {
     private String productQuantity;
     private Bitmap productImage;
 
+    public Products(String productName, String productPrice, Bitmap productImage) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productImage = productImage;
+    }
+
     public Products(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity, Bitmap productImage) {
         this.productID = productID;
         this.productOnCartID = productOnCartID;

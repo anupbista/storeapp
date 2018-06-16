@@ -57,11 +57,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.removeFromCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(mCtx);
                 JSONObject json = new JSONObject();
                 try{
                     json.put("productOnCartID", products.getProductOnCartID());
                     json.put("productID", products.getProductID());
                     json.put("productQuantity", products.getProductQuantity());
+                    json.put("userName", sharedPreferencesUser.getUsername());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

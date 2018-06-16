@@ -114,6 +114,8 @@ public class FragmentDashboard extends Fragment {
                 Date d = new Date();
                 SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
                 String time = sdf.format(d);
+                SimpleDateFormat timeFormat = new SimpleDateFormat("hh");
+                String onlyTime = timeFormat.format(new Date());
                 String currentTimeDate = DateFormat.getDateTimeInstance().format(new Date());
                 Bitmap pImage = ((BitmapDrawable)productImage.getDrawable()).getBitmap();
                 int pq;
@@ -134,6 +136,7 @@ public class FragmentDashboard extends Fragment {
                             json.put("productQuantity",pq);
                             json.put("productAddedDateTime",currentTimeDate);
                             json.put("productImage",pImage);
+                            json.put("time",onlyTime);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -217,10 +220,6 @@ public class FragmentDashboard extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    //if control comes here
-                    //that means the encoded format not matches
-                    //in this case you can display whatever data is available on the qrcode
-                    //to a toast
                     Toast.makeText(getActivity(), result.getContents(), Toast.LENGTH_LONG).show();
                 }
             }
