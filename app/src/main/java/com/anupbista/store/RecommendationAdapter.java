@@ -1,7 +1,9 @@
 package com.anupbista.store;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,16 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         holder.name.setText(products.getProductName());
         holder.price.setText("Rs. "+ products.getProductPrice());
         holder.productImage.setImageBitmap(products.getProductImage());
+        holder.recCardView.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent productDetailIntent = new Intent(context,ProductDetail.class);
+                productDetailIntent.putExtra("productID", products.getProductID());
+                System.out.println(products.getProductID());
+                context.startActivity(productDetailIntent);
+            }
+        });
     }
 
     @Override
@@ -45,12 +57,14 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
     public class RecommendationViewHolder extends RecyclerView.ViewHolder{
         TextView name,price;
         ImageView productImage;
+        public CardView recCardView;
 
         public RecommendationViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
             price = itemView.findViewById(R.id.price);
             productImage = itemView.findViewById(R.id.productImage);
+            recCardView = itemView.findViewById(R.id.recCardView);
         }
     }
 }

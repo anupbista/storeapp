@@ -39,8 +39,11 @@
             android:configChanges="orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".CheckoutActivity"
-            android:parentActivityName=".DashboardActivity"/>
+        <activity
+            android:name=".CheckoutActivity"
+            android:parentActivityName=".DashboardActivity" />
+        <activity android:name=".ProductDetail"
+            android:parentActivityName=".DashboardActivity"></activity>
     </application>
 
 </manifest>

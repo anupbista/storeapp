@@ -181,10 +181,6 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.nav_checkDetails) {
             Intent checkDetailsIntent = new Intent(DashboardActivity.this, CheckoutActivity.class);
             DashboardActivity.this.startActivity(checkDetailsIntent);
-
-        }else if (id == R.id.nav_recommendations) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new RecommendationsFragment()).commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_settings) {

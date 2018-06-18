@@ -1,5 +1,6 @@
 package com.anupbista.store;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendationsFragment extends Fragment {
+public class RecommendationFragment extends Fragment {
 
     RecyclerView recyclerView;
     RecommendationAdapter adapter;
@@ -37,7 +38,7 @@ public class RecommendationsFragment extends Fragment {
     Bitmap productImage;
     Bitmap productImages;
 
-    public RecommendationsFragment() {
+    public RecommendationFragment() {
         // Required empty public constructor
     }
 
@@ -52,7 +53,7 @@ public class RecommendationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         getActivity().setTitle("Recommendations");
-        View recommendationView =  inflater.inflate(R.layout.fragment_recommendations,container,false);
+        View recommendationView =  inflater.inflate(R.layout.b_nav_home,container,false);
         return recommendationView;
     }
 
@@ -70,7 +71,9 @@ public class RecommendationsFragment extends Fragment {
     }
 
     public void getCartData() {
-
+        final ProgressDialog progressDialog  = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading Recommendations...");
+        progressDialog.show();
         SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(this.getActivity());
         String userName = sharedPreferencesUser.getUsername();
         JSONObject json = new JSONObject();
@@ -84,6 +87,7 @@ public class RecommendationsFragment extends Fragment {
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
                 try {
                     if(response.getBoolean("message")){
                         System.out.println(response);
@@ -107,7 +111,7 @@ public class RecommendationsFragment extends Fragment {
                                             byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
-                                            Products products = new Products(productObject.getString("productname"),productObject.getString("productprice"),productImages);
+                                            Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice"),productImages);
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }

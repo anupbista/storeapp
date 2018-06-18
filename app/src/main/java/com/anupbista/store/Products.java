@@ -16,7 +16,8 @@ public class Products {
     private String productQuantity;
     private Bitmap productImage;
 
-    public Products(String productName, String productPrice, Bitmap productImage) {
+    public Products(String productID, String productName, String productPrice, Bitmap productImage) {
+        this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
         this.productImage = productImage;

@@ -1,5 +1,6 @@
 package com.anupbista.store;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -186,6 +187,9 @@ public class CartFragment extends Fragment {
     }
 
     public void getCartData() {
+        final ProgressDialog progressDialog  = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading Product Details...");
+        progressDialog.show();
         if (DashboardActivity.checkoutStatus){
             checkoutBtn.setText("PROCESSING");
             checkoutBtn.setEnabled(false);
@@ -205,6 +209,7 @@ public class CartFragment extends Fragment {
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
                 try {
                     if(response.getBoolean("message")){
                         System.out.println(response);
