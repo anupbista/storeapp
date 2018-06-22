@@ -55,7 +55,7 @@ public class ScanFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getActivity().setTitle("Scan");
+
         View dashboardView =  inflater.inflate(R.layout.b_nav_scan,container,false);
 
         productID = dashboardView.findViewById(R.id.productID);

@@ -42,7 +42,7 @@ public class ProductDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail);
-        getSupportActionBar().setTitle("Checkout Details");
+        getSupportActionBar().setTitle("Product Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         productName = findViewById(R.id.name);

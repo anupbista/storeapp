@@ -52,7 +52,7 @@ public class RecommendationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        getActivity().setTitle("Recommendations");
+
         View recommendationView =  inflater.inflate(R.layout.b_nav_home,container,false);
         return recommendationView;
     }
@@ -89,7 +89,7 @@ public class RecommendationFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 try {
-                    if(response.getBoolean("message")){
+                    if((response.getBoolean("message")) && (response.getString("type").equals("recommended"))){
                         System.out.println(response);
                         JSONArray productArray = response.getJSONArray("recommendedProducts");
                         System.out.println(productArray);
@@ -112,6 +112,49 @@ public class RecommendationFragment extends Fragment {
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
                                             Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice"),productImages);
+                                            productsList.add(products);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                        else{
+                                            Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                        }
+
+                    }
+                    else if((response.getBoolean("message")) && (response.getString("type").equals("sale"))){
+                        System.out.println(response);
+                        JSONArray productArray = response.getJSONArray("recommendedProducts");
+
+                        for (int i=0;i<productArray.length();i++){
+                            final JSONObject productObject = productArray.getJSONObject(i);
+                            JSONObject json = new JSONObject();
+                            try{
+                                json.put("productID",productObject.getString("productID"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            String URL =  getResources().getString(R.string.getProductImage);
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if(response.getBoolean("message")){
+                                            byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
+                                            Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+                                            productImages = productImage;
+                                            Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice")+" Sale:"+productObject.getString("salePrice"),productImages);
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }

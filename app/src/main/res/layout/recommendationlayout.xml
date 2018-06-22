@@ -36,6 +36,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="TextView"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:scrollHorizontally="true"
                         android:layout_weight="1"
                         android:textSize="18sp"
                         android:textStyle="bold"></TextView>

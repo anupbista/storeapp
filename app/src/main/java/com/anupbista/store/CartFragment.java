@@ -188,7 +188,7 @@ public class CartFragment extends Fragment {
 
     public void getCartData() {
         final ProgressDialog progressDialog  = new ProgressDialog(getContext());
-        progressDialog.setMessage("Loading Product Details...");
+        progressDialog.setMessage("Loading Cart...");
         progressDialog.show();
         if (DashboardActivity.checkoutStatus){
             checkoutBtn.setText("PROCESSING");
