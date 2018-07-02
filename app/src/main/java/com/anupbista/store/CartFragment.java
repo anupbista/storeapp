@@ -129,49 +129,9 @@ public class CartFragment extends Fragment {
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        checkoutBtn.setEnabled(false);
-                        SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(getContext());
-                        JSONObject json = new JSONObject();
-                        try {
-                            json.put("userName",sharedPreferencesUser.getUsername());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        String URL =  getResources().getString(R.string.customercheckout);
-                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    if(response.getBoolean("message")){
-                                        Toast.makeText(getActivity(),"Marked for CheckoutActivity", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(getActivity(),"GO to counter for payment", Toast.LENGTH_LONG).show();
-                                        checkoutBtn.setText("PROCESSING");
-                                        DashboardActivity.checkoutStatus = true;
+                        CheckoutMethod checkoutMethod = new CheckoutMethod();
+                        checkoutMethod.show(getFragmentManager(),"checkoutMethod");
 
-
-                                        recyclerView.setVisibility(View.INVISIBLE);
-                                        checkoutProgress.setVisibility(View.VISIBLE);
-
-                                        Intent i = new Intent(getContext(),CheckoutService.class);
-                                        getContext().startService(i);
-
-                                    }
-                                    else{
-                                        Toast.makeText(getActivity(),"Failed to mark for CheckoutActivity", Toast.LENGTH_SHORT).show();
-                                        checkoutBtn.setEnabled(true);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
-                        Toast.makeText(getContext(),"CheckoutCompleted",Toast.LENGTH_SHORT).show();
                     }
                 });
                 builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
