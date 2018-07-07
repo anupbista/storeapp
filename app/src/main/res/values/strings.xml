@@ -27,7 +27,8 @@
     <string name="nav_header_subtitle">student@email.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_logout">Logout</string>
-    <string name="checkout_sure">Are you Sure?</string>
+    <string name="choose_payment">Choose Payment Method</string>
+    <string name="checkout_sure">Are you sure?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -40,5 +41,10 @@
     <string name="tab_text_1">Recommendations</string>
     <string name="tab_text_2">Scan</string>
 
+    <string-array name="payment">
+        <item>Cash</item>
+        <item>esewa</item>
+        <item>Khalti</item>
+    </string-array>
 
 </resources>

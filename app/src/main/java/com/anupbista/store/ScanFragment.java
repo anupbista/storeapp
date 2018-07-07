@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class ScanFragment extends Fragment {
     //qr code scanner object
     private IntentIntegrator qrScan;
     int maxQuantity;
+    int setHomeDelivery = 0;
 
     @Nullable
     @Override
@@ -71,7 +73,20 @@ public class ScanFragment extends Fragment {
         addToCartBtn = dashboardView.findViewById(R.id.addToCartBtn);
         productQuantity = dashboardView.findViewById(R.id.productQuantity);
         productImage = dashboardView.findViewById(R.id.productImage);
+        CheckBox checkBox = dashboardView.findViewById(R.id.itemHomeDelivery);
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()){
+                    setHomeDelivery  = 1;
+                }
+                else{
+                    setHomeDelivery = 0;
+                }
+            }
+        });
         maxQuantity =1;
+
         productQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -137,6 +152,7 @@ public class ScanFragment extends Fragment {
                             json.put("productAddedDateTime",currentTimeDate);
                             json.put("productImage",pImage);
                             json.put("time",onlyTime);
+                            json.put("homedelivery",setHomeDelivery);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -189,6 +205,7 @@ public class ScanFragment extends Fragment {
         });
         return dashboardView;
     }
+
 
     //Getting the scan results
     @Override

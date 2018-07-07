@@ -16,6 +16,12 @@ public class Products {
     private String productQuantity;
     private Bitmap productImage;
 
+    public String getHomedelivery() {
+        return homedelivery;
+    }
+
+    private String homedelivery;
+
     public Products(String productID, String productName, String productPrice, Bitmap productImage) {
         this.productID = productID;
         this.productName = productName;
@@ -23,7 +29,7 @@ public class Products {
         this.productImage = productImage;
     }
 
-    public Products(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity, Bitmap productImage) {
+    public Products(String productID, String productOnCartID, String productName, String productCat, String productSize, String productBrand, String productColor, String productPrice, String productDesc, String productQuantity, Bitmap productImage, String homedelivery) {
         this.productID = productID;
         this.productOnCartID = productOnCartID;
         this.productName = productName;
@@ -35,6 +41,7 @@ public class Products {
         this.productDesc = productDesc;
         this.productQuantity = productQuantity;
         this.productImage = productImage;
+        this.homedelivery = homedelivery;
     }
 
     public Products(Bitmap productImage) {

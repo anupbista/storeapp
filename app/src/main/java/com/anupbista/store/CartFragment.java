@@ -37,7 +37,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment{
 
     RecyclerView recyclerView;
     ProductAdapter adapter;
@@ -51,6 +51,7 @@ public class CartFragment extends Fragment {
     BroadcastReceiver broadNoti;
     double total= 0;
     Button checkoutBtn;
+    private String paymentSelection;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -129,8 +130,89 @@ public class CartFragment extends Fragment {
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        CheckoutMethod checkoutMethod = new CheckoutMethod();
-                        checkoutMethod.show(getFragmentManager(),"checkoutMethod");
+
+                        final String[] payment = getActivity().getResources().getStringArray(R.array.payment);
+
+                        AlertDialog.Builder pbuilder = new AlertDialog.Builder(getContext());
+                        pbuilder.setTitle("Payment");
+                        pbuilder.setSingleChoiceItems(R.array.payment, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                paymentSelection = payment[which];
+                            }
+                        });
+
+                        pbuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                checkoutBtn.setEnabled(false);
+
+                                if (paymentSelection.equals("cash")){
+                                    SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(getContext());
+                                    JSONObject json = new JSONObject();
+                                    try {
+                                        json.put("userName",sharedPreferencesUser.getUsername());
+                                        json.put("paymentmethod",paymentSelection);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    String URL =  getResources().getString(R.string.customercheckout);
+                                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                if(response.getBoolean("message")){
+                                                    Toast.makeText(getActivity(),"Marked for Checkout", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(),"GO to counter for payment", Toast.LENGTH_LONG).show();
+                                                    checkoutBtn.setText("Processing");
+                                                    DashboardActivity.checkoutStatus = true;
+
+                                                    recyclerView.setVisibility(View.INVISIBLE);
+                                                    checkoutProgress.setVisibility(View.VISIBLE);
+
+                                                    Intent i = new Intent(getContext(),CheckoutService.class);
+                                                    getContext().startService(i);
+
+                                                }
+                                                else{
+                                                    Toast.makeText(getActivity(),"Failed to mark for CheckoutActivity", Toast.LENGTH_SHORT).show();
+                                                    checkoutBtn.setEnabled(true);
+
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                                    Toast.makeText(getContext(),"CheckoutCompleted",Toast.LENGTH_SHORT).show();
+
+                                }else if (paymentSelection.equals("esewa")){
+
+                                }else if (paymentSelection.equals("khalti")){
+
+                                }
+
+
+
+                            }
+                        });
+                        pbuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        pbuilder.show();
+
+
+
 
                     }
                 });
@@ -194,7 +276,7 @@ public class CartFragment extends Fragment {
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
                                             Products products = new Products(productObject.getString("productID"),productObject.getString("productOnCartID"),productObject.getString("productName"),productObject.getString("productCat"),productObject.getString("productSize"),productObject.getString("productBrand"),
-                                                    productObject.getString("productColor"),productObject.getString("productPrice"),productObject.getString("productDesc"),productObject.getString("productQuantity"),productImages);
+                                                    productObject.getString("productColor"),productObject.getString("productPrice"),productObject.getString("productDesc"),productObject.getString("productQuantity"),productImages,productObject.getString("homedelivery"));
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -273,6 +355,5 @@ public class CartFragment extends Fragment {
         });
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
-
 
 }

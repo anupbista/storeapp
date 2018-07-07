@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.brand.setText(products.getProductBrand());
         holder.quantity.setText(products.getProductQuantity());
         holder.productImage.setImageBitmap(products.getProductImage());
+        if (products.getHomedelivery().equals("1")){
+            holder.homedeliveryLayout.setVisibility(View.VISIBLE);
+        }else{
+            holder.homedeliveryLayout.setVisibility(View.INVISIBLE);
+        }
         holder.removeFromCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +112,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
         TextView name, category,color,size,brand, price,desc,quantity;
+        LinearLayout homedeliveryLayout;
         ImageButton removeFromCartBtn;
         ImageView productImage;
 
@@ -122,6 +129,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             quantity = itemView.findViewById(R.id.quantity);
             removeFromCartBtn = itemView.findViewById(R.id.removeFromCartBtn);
             productImage = itemView.findViewById(R.id.productImage);
+            homedeliveryLayout = itemView.findViewById(R.id.homedeliveryLayout);
         }
     }
 }

@@ -5,10 +5,7 @@
     android:id="@+id/productDetailContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="40dp"
-    android:background="#e1dbdb"
     android:elevation="10dp"
-    android:visibility="invisible"
     tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout

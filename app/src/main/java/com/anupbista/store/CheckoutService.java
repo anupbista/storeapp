@@ -121,7 +121,7 @@ public class CheckoutService extends Service{
                                 }
                             }
                             else{
-                                Toast.makeText(getApplicationContext(),"Failed to make payment", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Failed to make payment from checkout service", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

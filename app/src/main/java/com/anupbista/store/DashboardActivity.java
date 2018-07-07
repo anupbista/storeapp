@@ -27,7 +27,7 @@ import org.json.JSONObject;
 
 
 public class DashboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String CHANNEL_ID = "channelCheckout";
 
