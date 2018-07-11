@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class CartFragment extends Fragment{
     Bitmap productImages;
     TextView totalCart;
     LinearLayout cartDetailsLayout;
-    TextView emptyCartMessage;
+    ImageView emptyCartMessage;
     ProgressBar checkoutProgress;
     BroadcastReceiver broadNoti;
     double total= 0;
@@ -130,7 +131,7 @@ public class CartFragment extends Fragment{
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        paymentSelection = "Cash";
                         final String[] payment = getActivity().getResources().getStringArray(R.array.payment);
 
                         AlertDialog.Builder pbuilder = new AlertDialog.Builder(getContext());
@@ -148,7 +149,7 @@ public class CartFragment extends Fragment{
 
                                 checkoutBtn.setEnabled(false);
 
-                                if (paymentSelection.equals("cash")){
+                                if (paymentSelection.equals("Cash")){
                                     SharedPreferencesUser sharedPreferencesUser = new SharedPreferencesUser(getContext());
                                     JSONObject json = new JSONObject();
                                     try {

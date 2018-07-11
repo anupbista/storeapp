@@ -9,23 +9,23 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorAccent"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/signUpText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="SignUp"
-            android:textAlignment="center"
-            android:textSize="30sp"
+            android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/smart_shopping_logo_512_512" />
 
         <EditText
             android:id="@+id/first_name"
@@ -36,10 +36,13 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="First Name"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/signUpText"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
             tools:hint="First Name" />
 
         <EditText
@@ -48,11 +51,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/colorWhite"
             android:ems="10"
             android:hint="Last Name"
             android:inputType="textPersonName"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_name"
             tools:hint="Last Name" />
@@ -63,11 +70,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/colorWhite"
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
@@ -76,8 +87,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -91,7 +105,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:ems="10"
             android:hint="Address"
             android:inputType="textPersonName"
@@ -105,7 +122,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Phone Number"
             android:inputType="phone"
@@ -119,7 +139,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phonenumber">
@@ -131,6 +151,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:text="Gender"
+                android:textColor="@color/colorWhite"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -139,6 +160,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
+                android:buttonTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
                 android:onClick="onGenderButtonClicked"
                 android:text="Male" />
 
@@ -147,6 +170,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:buttonTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
                 android:onClick="onGenderButtonClicked"
                 android:text="Female" />
         </RadioGroup>
@@ -157,7 +182,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
@@ -169,9 +197,12 @@
             android:id="@+id/rePassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:backgroundTint="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="20dp"
             android:ems="10"
             android:hint="Re-Password"
             android:inputType="textPassword"
@@ -181,9 +212,14 @@
 
         <Button
             android:id="@+id/signUpBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorWhite"
+            android:textSize="18sp"
             android:text="Sign Up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
