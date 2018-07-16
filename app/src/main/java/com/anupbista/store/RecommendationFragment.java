@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,12 +31,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendationFragment extends Fragment {
+public class RecommendationFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     RecyclerView recyclerView;
     RecommendationAdapter adapter;
     List<Products> productsList;
     Bitmap productImage;
+    SwipeRefreshLayout swipeRefreshLayout;
     Bitmap productImages;
 
     public RecommendationFragment() {
@@ -62,6 +64,8 @@ public class RecommendationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         productsList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recommendationRecyclerView);
+        swipeRefreshLayout = view.findViewById(R.id.recoFragmentRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this.getActivity(),2));
 
@@ -112,6 +116,9 @@ public class RecommendationFragment extends Fragment {
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
                                             Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice"),productImages);
+                                            if (swipeRefreshLayout.isRefreshing()){
+                                                swipeRefreshLayout.setRefreshing(false);
+                                            }
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -155,6 +162,9 @@ public class RecommendationFragment extends Fragment {
                                             Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
                                             productImages = productImage;
                                             Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice")+" Sale:"+productObject.getString("salePrice"),productImages);
+                                            if (swipeRefreshLayout.isRefreshing()){
+                                                swipeRefreshLayout.setRefreshing(false);
+                                            }
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -185,9 +195,17 @@ public class RecommendationFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void onRefresh() {
+        productsList.clear();
+        recyclerView.setAdapter(null);
+        getCartData();
+        recyclerView.setAdapter(adapter);
     }
 }

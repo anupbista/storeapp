@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_cart"
-        android:icon="@drawable/ic_shopping_cart"
+        android:id="@+id/action_scan"
+        android:icon="@drawable/ic_scanner"
         android:orderInCategory="90"
-        android:title="@string/action_cart"
+        android:title="@string/action_dashboard"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_logout"

@@ -109,7 +109,7 @@ public class ProductDetail extends AppCompatActivity {
                                             productSize.setText(productObject.getString("productsize"));
                                             productColor.setText(productObject.getString("productcolor"));
                                             productBrand.setText(productObject.getString("productbrand"));
-                                            productPrice.setText(productObject.getString("productprice"));
+                                            productPrice.setText("Rs. "+productObject.getString("productprice"));
                                             productimage.setImageBitmap(productImages);
 
                                         }

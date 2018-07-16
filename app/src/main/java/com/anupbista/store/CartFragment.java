@@ -12,9 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +40,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CartFragment extends Fragment{
+public class CartFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     RecyclerView recyclerView;
     ProductAdapter adapter;
@@ -53,6 +55,7 @@ public class CartFragment extends Fragment{
     double total= 0;
     Button checkoutBtn;
     private String paymentSelection;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,6 +113,7 @@ public class CartFragment extends Fragment{
         productsList = new ArrayList<>();
         checkoutBtn = view.findViewById(R.id.checkoutBtn);
         recyclerView = view.findViewById(R.id.cardRecyclerView);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
@@ -120,6 +124,9 @@ public class CartFragment extends Fragment{
         cartDetailsLayout = view.findViewById(R.id.cartDetailsLayout);
         emptyCartMessage = view.findViewById(R.id.emptyCartMessage);
         checkoutProgress = view.findViewById(R.id.checkoutProgress);
+        swipeRefreshLayout = view.findViewById(R.id.cartFragmentRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         getCartData();
 
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -257,6 +264,7 @@ public class CartFragment extends Fragment{
                     if(response.getBoolean("message")){
                         System.out.println(response);
                         cartDetailsLayout.setVisibility(View.VISIBLE);
+                        checkoutBtn.setEnabled(true);
                         JSONArray productArray = response.getJSONArray("cartData");
                         for (int i=0;i<productArray.length();i++){
                             final JSONObject productObject = productArray.getJSONObject(i);
@@ -278,6 +286,9 @@ public class CartFragment extends Fragment{
                                             productImages = productImage;
                                             Products products = new Products(productObject.getString("productID"),productObject.getString("productOnCartID"),productObject.getString("productName"),productObject.getString("productCat"),productObject.getString("productSize"),productObject.getString("productBrand"),
                                                     productObject.getString("productColor"),productObject.getString("productPrice"),productObject.getString("productDesc"),productObject.getString("productQuantity"),productImages,productObject.getString("homedelivery"));
+                                            if (swipeRefreshLayout.isRefreshing()){
+                                                swipeRefreshLayout.setRefreshing(false);
+                                            }
                                             productsList.add(products);
                                             adapter.notifyDataSetChanged();
                                         }
@@ -299,6 +310,10 @@ public class CartFragment extends Fragment{
                         totalCart.setText("Rs: "+String.valueOf(total));
                     }
                     else{
+                        if (swipeRefreshLayout.isRefreshing()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                        cartDetailsLayout.setVisibility(View.INVISIBLE);
                         emptyCartMessage.setVisibility(View.VISIBLE);
                         checkoutBtn.setEnabled(false);
 
@@ -357,4 +372,11 @@ public class CartFragment extends Fragment{
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
+    @Override
+    public void onRefresh() {
+        productsList.clear();
+        recyclerView.setAdapter(null);
+        getCartData();
+        recyclerView.setAdapter(adapter);
+    }
 }

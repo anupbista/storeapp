@@ -34,7 +34,13 @@ public class FragmentDashboard extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        int position=0;
+        Bundle extras = getArguments();
+        if (extras!= null) {
+            position = Integer.parseInt(extras.getString("PageNumber"));
+        }else{
+            System.out.println("NUll");
+        }
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -45,6 +51,7 @@ public class FragmentDashboard extends Fragment {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+        mViewPager.setCurrentItem(position);
 
     }
 

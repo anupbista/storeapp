@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private  RecyclerView.Adapter adapter;
     private List<CheckoutItemsBill> checkoutItemsBills;
     double billTotal=0;
+    ImageView emptyBillMessage;
     private TextView billTotalPrice;
     private TextView checkoutBy;
 
@@ -49,6 +51,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         billTotalPrice = findViewById(R.id.billTotal);
         checkoutBy = findViewById(R.id.billCheckoutBy);
+        emptyBillMessage = findViewById(R.id.emptyBillMessage);
 
         getCheckoutDetailsBill();
     }
@@ -89,7 +92,8 @@ public class CheckoutActivity extends AppCompatActivity {
                         billTotalPrice.setText("Total: Rs. "+String.valueOf(billTotal));
                     }
                     else{
-                        Toast.makeText(getApplicationContext(),"Error Fetching Data", Toast.LENGTH_SHORT).show();
+                        emptyBillMessage.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(),"No Bill Data Available", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -22,7 +22,7 @@
 
     <ImageView
         android:id="@+id/emptyCartMessage"
-        android:layout_width="200dp"
+        android:layout_width="180sp"
         android:layout_height="542dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.488"
-        app:srcCompat="@drawable/emptycart" />
+        app:srcCompat="@drawable/ic_empty_order" />
 
     <LinearLayout
         android:id="@+id/cartDetailsLayout"
@@ -79,19 +79,39 @@
             app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/cardRecyclerView"
-        android:layout_width="395dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:scrollbars="vertical"
-        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/cartDetailsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/cartFragmentRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cardRecyclerView"
+                android:layout_width="395dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:scrollbars="vertical"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/cartDetailsLayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

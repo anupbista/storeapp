@@ -33,13 +33,14 @@ public class DashboardActivity extends AppCompatActivity
 
     private TextView customerName, customerEmail;
     public static Boolean checkoutStatus =false;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -155,10 +156,25 @@ public class DashboardActivity extends AppCompatActivity
             return true;
         }
         else if (id == R.id.action_cart) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu_cart);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new CartFragment()).commit();
             NavigationView navigationView = findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.nav_cart);
+            return true;
+        }
+        else if (id == R.id.action_scan) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu);
+            FragmentDashboard fragmentDashboard = new FragmentDashboard();
+            Bundle bundle = new Bundle();
+            bundle.putString("PageNumber","1");
+            fragmentDashboard.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    fragmentDashboard).commit();
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            navigationView.setCheckedItem(R.id.nav_dashboard);
             return true;
         }
 
@@ -172,13 +188,25 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_dashboard) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new FragmentDashboard()).commit();
         }
         else if (id == R.id.nav_cart) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu_cart);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new CartFragment()).commit();
-        } else if (id == R.id.nav_checkDetails) {
+        }
+        else if (id == R.id.nav_order) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new OrderFragment()).commit();
+        }else if (id == R.id.nav_checkDetails) {
+            toolbar.getMenu().clear();
+            toolbar.inflateMenu(R.menu.action_menu);
             Intent checkDetailsIntent = new Intent(DashboardActivity.this, CheckoutActivity.class);
             DashboardActivity.this.startActivity(checkDetailsIntent);
         } else if (id == R.id.nav_share) {

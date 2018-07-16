@@ -84,6 +84,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position, productsList.size());
                                 fragment.calculateTotalPrice();
+                                if (productsList.isEmpty()){
+                                    fragment.cartDetailsLayout.setVisibility(View.INVISIBLE);
+                                    fragment.emptyCartMessage.setVisibility(View.VISIBLE);
+                                }
                             }
                             else{
                                 Toast.makeText(mCtx,"Failed removing from Cart", Toast.LENGTH_SHORT).show();

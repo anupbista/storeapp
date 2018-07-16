@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4CAF50</color>
-    <color name="colorPrimaryDark">#2f9734</color>
-    <color name="colorAccent">#65a668</color>
+    <color name="colorPrimary">#2bc1b5</color>
+    <color name="colorPrimaryDark">#34a89c</color>
+    <color name="colorAccent">#de7f21</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGrey">#beb7b7</color>
     <color name="colorLightGrey">#d4d1d1</color>
+    <color name="orderPending">#f72c00</color>
+    <color name="orderProcessing">#529349</color>
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Store</string>
+    <string name="app_name">Smart Shopping</string>
     <string name="channel_name">Noti_Channel</string>
     <string name="channel_description">Noti_Channel_Desc</string>
     <string name="title_activity_login">Log in</string>
@@ -19,6 +19,7 @@
     <string name="getCheckoutBill">http://192.168.0.105:3000/api/getCheckoutBill</string>
     <string name="getrecommendedProducts">http://192.168.0.105:3000/api/getrecommendedProducts</string>
     <string name="getProductInfo">http://192.168.0.105:3000/api/getProductInfo</string>
+    <string name="getOrderData">http://192.168.0.105:3000/api/getOrderData</string>
 
     <string name="title_activity_dashboard">Store</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -27,6 +28,8 @@
     <string name="nav_header_subtitle">student@email.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_logout">Logout</string>
+    <string name="action_cart">Cart</string>
+    <string name="action_dashboard">Dashboard</string>
     <string name="choose_payment">Choose Payment Method</string>
     <string name="checkout_sure">Are you sure?</string>
 
