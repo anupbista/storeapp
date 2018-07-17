@@ -93,19 +93,91 @@ public class RecommendationFragment extends Fragment implements SwipeRefreshLayo
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 try {
-                    if((response.getBoolean("message")) && (response.getString("type").equals("recommended"))){
+                    if((response.getBoolean("message")) && (response.getString("type").equals("bill")) || (response.getString("type").equals("cart"))){
                         System.out.println(response);
                         JSONArray productArray = response.getJSONArray("recommendedProducts");
                         System.out.println(productArray);
                         for (int i=0;i<productArray.length();i++){
                             final JSONObject productObject = productArray.getJSONObject(i);
-                            JSONObject json = new JSONObject();
+                            final JSONObject json = new JSONObject();
+                            try{
+                                json.put("productID",productObject.getString("id"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            String URL =  getResources().getString(R.string.getProductInfo);
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if(response.getBoolean("message")){
+
+                                            JSONArray productArrays = response.getJSONArray("productInfo");
+                                            for (int i=0;i<productArrays.length();i++){
+                                                final JSONObject productObjects = productArrays.getJSONObject(i);
+                                                String URL =  getResources().getString(R.string.getProductImage);
+                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        try {
+                                                            if(response.getBoolean("message")){
+                                                                byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
+                                                                Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+                                                                productImages = productImage;
+                                                                Products products = new Products(productObject.getString("id"),productObjects.getString("productname"),productObjects.getString("productprice"),productImages);
+                                                                if (swipeRefreshLayout.isRefreshing()){
+                                                                    swipeRefreshLayout.setRefreshing(false);
+                                                                }
+                                                                productsList.add(products);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                            else{
+                                                                Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getActivity(),"Error Connecting to API 1", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                                            }
+
+                                        }
+                                        else{
+                                            Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity(),"Error Connecting to API 2", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                        }
+
+                    }
+                    else if((response.getBoolean("message")) && (response.getString("type").equals("random"))){
+                        System.out.println(response);
+                        JSONArray productArray = response.getJSONArray("recommendedProducts");
+                        System.out.println(productArray);
+                        for (int i=0;i<productArray.length();i++){
+                            final JSONObject productObject = productArray.getJSONObject(i);
+                            final JSONObject json = new JSONObject();
                             try{
                                 json.put("productID",productObject.getString("productID"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                             String URL =  getResources().getString(R.string.getProductImage);
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
                                 @Override
@@ -132,53 +204,7 @@ public class RecommendationFragment extends Fragment implements SwipeRefreshLayo
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
-                        }
-
-                    }
-                    else if((response.getBoolean("message")) && (response.getString("type").equals("sale"))){
-                        System.out.println(response);
-                        JSONArray productArray = response.getJSONArray("recommendedProducts");
-
-                        for (int i=0;i<productArray.length();i++){
-                            final JSONObject productObject = productArray.getJSONObject(i);
-                            JSONObject json = new JSONObject();
-                            try{
-                                json.put("productID",productObject.getString("productID"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            String URL =  getResources().getString(R.string.getProductImage);
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    try {
-                                        if(response.getBoolean("message")){
-                                            byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
-                                            Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-                                            productImages = productImage;
-                                            Products products = new Products(productObject.getString("productID"),productObject.getString("productname"),productObject.getString("productprice")+" Sale:"+productObject.getString("salePrice"),productImages);
-                                            if (swipeRefreshLayout.isRefreshing()){
-                                                swipeRefreshLayout.setRefreshing(false);
-                                            }
-                                            productsList.add(products);
-                                            adapter.notifyDataSetChanged();
-                                        }
-                                        else{
-                                            Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(),"Error Connecting to API 1", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
@@ -186,7 +212,7 @@ public class RecommendationFragment extends Fragment implements SwipeRefreshLayo
 
                     }
                     else{
-                        Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(),"Error Connecting to API 3", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -195,7 +221,7 @@ public class RecommendationFragment extends Fragment implements SwipeRefreshLayo
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(),"Error Connecting to API", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Error Connecting to API 4", Toast.LENGTH_SHORT).show();
             }
         });
         RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
