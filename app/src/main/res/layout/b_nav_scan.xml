@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,14 +22,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_scanner"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <android.support.v7.widget.CardView
         android:id="@+id/productInfoCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:visibility="invisible"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -283,10 +297,10 @@
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:id="@+id/itemHomeDelivery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/itemHomeDelivery"
-                    android:text="Home Delivery"/>
+                    android:text="Home Delivery" />
 
             </LinearLayout>
 
@@ -324,18 +338,44 @@
 
     </android.support.v7.widget.CardView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_scan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:id="@+id/scanRecCardView"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/ic_scanner"
-        android:visibility="visible"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/productInfoCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:textStyle="bold"
+                android:text="You Might Like..."
+                android:paddingTop="10dp"
+                android:layout_marginBottom="20dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recommendationScanRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
 </android.support.constraint.ConstraintLayout>

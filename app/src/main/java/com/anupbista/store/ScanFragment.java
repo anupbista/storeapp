@@ -4,16 +4,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.text.InputFilter;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,11 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ScanFragment extends Fragment {
 
@@ -53,6 +53,14 @@ public class ScanFragment extends Fragment {
     private IntentIntegrator qrScan;
     int maxQuantity;
     int setHomeDelivery = 0;
+
+//    for recommendation of product based on scanned product
+    RecyclerView recyclerView;
+    ScanRecommendationAdapter adapter;
+    List<Products> productsList;
+    Bitmap rproductImage;
+    Bitmap rproductImages;
+    CardView scanRecCardView;
 
     @Nullable
     @Override
@@ -74,6 +82,17 @@ public class ScanFragment extends Fragment {
         productQuantity = dashboardView.findViewById(R.id.productQuantity);
         productImage = dashboardView.findViewById(R.id.productImage);
         CheckBox checkBox = dashboardView.findViewById(R.id.itemHomeDelivery);
+        scanRecCardView = dashboardView.findViewById(R.id.scanRecCardView);
+
+        productsList = new ArrayList<>();
+        recyclerView = dashboardView.findViewById(R.id.recommendationScanRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity(), LinearLayout.HORIZONTAL, false));
+
+        adapter = new ScanRecommendationAdapter(productsList,getContext());
+        recyclerView.setAdapter(adapter);
+
+
         checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +254,10 @@ public class ScanFragment extends Fragment {
 
                     getProductImage();
 
+                    getScanRecommendedProduct();
+
+                    scanRecCardView.setVisibility(View.VISIBLE);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity(), result.getContents(), Toast.LENGTH_LONG).show();
@@ -244,6 +267,108 @@ public class ScanFragment extends Fragment {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
+    public void getScanRecommendedProduct() {
+        JSONObject json = new JSONObject();
+        try{
+            json.put("productID",productInformation.getString("productID"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String URL =  getResources().getString(R.string.getScanRecommendedProducts);
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if((response.getBoolean("message")) && (response.getString("type").equals("scan")) ){
+                        System.out.println(response);
+                        JSONArray productArray = response.getJSONArray("recommendedProducts");
+                        System.out.println(productArray);
+                        for (int i=0;i<productArray.length();i++){
+                            final JSONObject productObject = productArray.getJSONObject(i);
+                            final JSONObject json = new JSONObject();
+                            try{
+                                json.put("productID",productObject.getString("id"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            String URL =  getResources().getString(R.string.getProductInfo);
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        if(response.getBoolean("message")){
+
+                                            JSONArray productArrays = response.getJSONArray("productInfo");
+                                            for (int i=0;i<productArrays.length();i++){
+                                                final JSONObject productObjects = productArrays.getJSONObject(i);
+                                                String URL =  getResources().getString(R.string.getProductImage);
+                                                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL,json, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        try {
+                                                            if(response.getBoolean("message")){
+                                                                byte[] encodeByte = Base64.decode(response.getString("details"),Base64.DEFAULT);
+                                                                Bitmap productImage = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+                                                                rproductImages = productImage;
+                                                                Products products = new Products(productObject.getString("id"),productObjects.getString("productname"),productObjects.getString("productprice"),rproductImages);
+
+                                                                productsList.add(products);
+                                                                adapter.notifyDataSetChanged();
+                                                            }
+                                                            else{
+                                                                Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        Toast.makeText(getActivity(),"Error Connecting to API 1", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                                RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                                            }
+
+                                        }
+                                        else{
+                                            Toast.makeText(getActivity(),"Failed loading Image", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Toast.makeText(getActivity(),"Error Connecting to API 2", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            RequestQueueSingleton.getInstance(getContext()).addToRequestQueue(jsonObjectRequest);
+                        }
+
+                    }
+                    else{
+                        Toast.makeText(getActivity(),"No Product On such ID", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getActivity(),"Error Connecting to API 4", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueueSingleton.getInstance(getActivity()).addToRequestQueue(jsonObjectRequest);
+    }
+
+
 
     private void getProductImage() {
         JSONObject json = new JSONObject();
